@@ -1,0 +1,21 @@
+{
+    "name": "grocelivery/common-utils",
+    "description": "Set of common utility classes for grocelivery apps",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Mateusz Lencki",
+            "email": "mateusz.lencki@gmail.com"
+        }
+    ],
+    "require": {
+        "php": "^7.3",
+        "illuminate/support": "^6.3"
+    },
+    "autoload": {
+        "psr-4": {
+            "CommonUtils\\CommonUtils\\": "src/"
+        }
+    }
+}
