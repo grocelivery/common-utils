@@ -9,10 +9,10 @@ use Illuminate\Support\Collection;
 use Illuminate\Contracts\Support\Arrayable;
 
 /**
- * Class Resource
+ * Class JsonResource
  * @package Grocelivery\CommonUtils\Http
  */
-abstract class Resource implements JsonResourceInterface
+abstract class JsonResource implements JsonResourceInterface
 {
     /** @var Arrayable */
     protected $resource;
