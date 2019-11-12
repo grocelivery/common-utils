@@ -11,7 +11,9 @@
     ],
     "require": {
         "php": "^7.3",
-        "illuminate/support": "^6.5"
+        "ext-json": "*",
+        "illuminate/support": "^6.5",
+        "illuminate/http": "^6.5"
     },
     "autoload": {
         "psr-4": {

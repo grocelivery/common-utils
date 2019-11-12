@@ -29,7 +29,7 @@ abstract class JsonResource implements JsonResourceInterface
     /**
      * @return array
      */
-    protected function map(): array
+    public function map(): array
     {
         $data = [];
 

@@ -13,5 +13,10 @@ interface JsonResourceInterface
     /**
      * @return array
      */
+    public function map(): array;
+
+    /**
+     * @return array
+     */
     function toArray(): array;
 }
