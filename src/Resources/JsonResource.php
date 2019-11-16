@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace Grocelivery\CommonUtils\Http;
+namespace Grocelivery\HttpUtils\Resources;
 
-use Grocelivery\CommonUtils\Interfaces\JsonResourceInterface;
-use Illuminate\Support\Collection;
+use Grocelivery\HttpUtils\Interfaces\JsonResourceInterface;
 use Illuminate\Contracts\Support\Arrayable;
+use Illuminate\Support\Collection;
 
 /**
  * Class JsonResource
- * @package Grocelivery\CommonUtils\Http
+ * @package Grocelivery\HttpUtils\Http
  */
 abstract class JsonResource implements JsonResourceInterface
 {

@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Grocelivery\CommonUtils\Interfaces;
+namespace Grocelivery\HttpUtils\Interfaces;
 
 use Illuminate\Http\JsonResponse;
 
 /**
  * Interface JsonResponseInterface
- * @package Grocelivery\IdentityProvider\Interfaces\Http\Responses
+ * @package Grocelivery\HttpUtils\Interfaces
  */
 interface JsonResponseInterface
 {

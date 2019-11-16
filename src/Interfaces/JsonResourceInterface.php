@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Grocelivery\CommonUtils\Interfaces;
+namespace Grocelivery\HttpUtils\Interfaces;
 
 /**
  * Interface JsonResourceInterface
- * @package Grocelivery\CommonUtils\Interfaces
+ * @package Grocelivery\HttpUtils\Interfaces
  */
 interface JsonResourceInterface
 {

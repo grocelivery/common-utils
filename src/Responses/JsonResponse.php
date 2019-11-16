@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace Grocelivery\CommonUtils\Http;
+namespace Grocelivery\HttpUtils\Responses;
 
-use Grocelivery\CommonUtils\Interfaces\JsonResourceInterface as JsonResource;
-use Grocelivery\CommonUtils\Interfaces\JsonResponseInterface;
+use Grocelivery\HttpUtils\Interfaces\JsonResourceInterface as JsonResource;
+use Grocelivery\HttpUtils\Interfaces\JsonResponseInterface;
 use Illuminate\Http\JsonResponse as BaseResponse;
 
 /**
  * Class JsonResponse
- * @package Grocelivery\CommonUtils\Http
+ * @package Grocelivery\HttpUtils\Http
  */
 class JsonResponse extends BaseResponse implements JsonResponseInterface
 {

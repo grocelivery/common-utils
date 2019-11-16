@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace Grocelivery\CommonUtils\Exceptions;
+namespace Grocelivery\HttpUtils\Exceptions;
 
 use Exception;
-use Grocelivery\CommonUtils\Interfaces\ResponseExceptionInterface;
+use Grocelivery\HttpUtils\Interfaces\ResponseExceptionInterface;
 use Illuminate\Http\Response;
 
 /**
  * Class InternalServerException
- * @package Grocelivery\CommonUtils\Exceptions
+ * @package Grocelivery\HttpUtils\Exceptions
  */
 class InternalServerException extends Exception implements ResponseExceptionInterface
 {

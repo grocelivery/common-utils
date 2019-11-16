@@ -1,6 +1,6 @@
 {
-    "name": "grocelivery/common-utils",
-    "description": "Set of common utility classes for grocelivery apps",
+    "name": "grocelivery/http-utils",
+    "description": "Set of http utility classes",
     "type": "library",
     "license": "MIT",
     "authors": [
@@ -17,7 +17,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Grocelivery\\CommonUtils\\": "src/"
+            "Grocelivery\\HttpUtils\\": "src/"
         }
     }
 }
