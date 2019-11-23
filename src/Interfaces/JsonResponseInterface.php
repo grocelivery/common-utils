@@ -24,11 +24,11 @@ interface JsonResponseInterface
      */
     public function setStatusCode(int $code, $text = null): JsonResponseInterface;
 
-    /**
-     * @param array $body
-     * @return JsonResponseInterface
-     */
-    public function setBody(array $body): JsonResponseInterface;
+//    /**
+//     * @param array $data
+//     * @return JsonResponseInterface
+//     */
+//    public function setData(array $data): JsonResponseInterface;
     /**
      * @param string $key
      * @param $value

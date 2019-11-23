@@ -13,11 +13,21 @@
         "php": "^7.3",
         "ext-json": "*",
         "illuminate/support": "^6.5",
-        "illuminate/http": "^6.5"
+        "illuminate/http": "^6.5",
+        "guzzlehttp/guzzle": "^6.4",
+        "lcobucci/jwt": "^3.3",
+        "illuminate/validation": "^6.5"
     },
     "autoload": {
         "psr-4": {
             "Grocelivery\\HttpUtils\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Grocelivery\\HttpUtils\\Providers\\HttpUtilsServiceProvider"
+            ]
         }
     }
 }

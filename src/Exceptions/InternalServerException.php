@@ -50,6 +50,14 @@ class InternalServerException extends Exception implements ResponseExceptionInte
     }
 
     /**
+     * @return bool
+     */
+    public function hasErrors(): bool
+    {
+        return !empty($this->errors);
+    }
+
+    /**
      * @param string $error
      * @return ResponseExceptionInterface
      */
