@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace Grocelivery\HttpUtils\Exceptions;
+namespace Grocelivery\Utils\Exceptions;
 
 use Exception;
-use Grocelivery\HttpUtils\Interfaces\ResponseExceptionInterface;
+use Grocelivery\Utils\Interfaces\ResponseExceptionInterface;
 use Illuminate\Http\Response;
 
 /**
  * Class InternalServerException
- * @package Grocelivery\HttpUtils\Exceptions
+ * @package Grocelivery\Utils\Exceptions
  */
 class InternalServerException extends Exception implements ResponseExceptionInterface
 {
@@ -47,6 +47,14 @@ class InternalServerException extends Exception implements ResponseExceptionInte
     {
         $this->errors = $errors;
         return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasErrors(): bool
+    {
+        return !empty($this->errors);
     }
 
     /**

@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace Grocelivery\HttpUtils\Responses;
+namespace Grocelivery\Utils\Responses;
 
-use Grocelivery\HttpUtils\Interfaces\JsonResourceInterface as JsonResource;
-use Grocelivery\HttpUtils\Interfaces\JsonResponseInterface;
+use Grocelivery\Utils\Interfaces\JsonResourceInterface as JsonResource;
+use Grocelivery\Utils\Interfaces\JsonResponseInterface;
 use Illuminate\Http\JsonResponse as BaseResponse;
 
 /**
  * Class JsonResponse
- * @package Grocelivery\HttpUtils\Http
+ * @package Grocelivery\Utils\Http
  */
 class JsonResponse extends BaseResponse implements JsonResponseInterface
 {
@@ -29,7 +29,10 @@ class JsonResponse extends BaseResponse implements JsonResponseInterface
     {
         $data = json_decode($data, true);
         $response = new JsonResponse($data, $status, $headers);
-        $response->setBody($data);
+
+        $response->setBody($data["body"] ?? $data);
+        $response->setErrors($data["errors"] ?? []);
+
         return $response;
     }
 
@@ -48,12 +51,12 @@ class JsonResponse extends BaseResponse implements JsonResponseInterface
     public function all(): array
     {
         if (!empty($this->body)) {
-            $data['body'] = $this->body;
+            $response['body'] = $this->body;
         }
 
-        $data['errors'] = $this->errors;
+        $response['errors'] = $this->errors;
 
-        return $data;
+        return $response;
     }
 
     /**

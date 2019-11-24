@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Grocelivery\HttpUtils\Exceptions;
+namespace Grocelivery\Utils\Exceptions;
 
 use Illuminate\Http\Response;
 
 /**
  * Class BadRequestException
- * @package Grocelivery\HttpUtils\Exceptions
+ * @package Grocelivery\Utils\Exceptions
  */
 class BadRequestException extends InternalServerException
 {
