@@ -3,12 +3,14 @@
 namespace Grocelivery\HttpUtils\Exceptions;
 
 use Exception;
-use Grocelivery\HttpUtils\Interfaces\JsonResponseInterface as JsonResponse;
+use Grocelivery\HttpUtils\Interfaces\JsonResponseInterface;
+use Grocelivery\HttpUtils\Responses\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Throwable;
 
 /**
  * Class ErrorRenderer
@@ -18,44 +20,86 @@ class ErrorRenderer
 {
     /** @var JsonResponse */
     protected $response;
-
-    /**
-     * Handler constructor.
-     * @param JsonResponse $response
-     */
-    public function __construct(JsonResponse $response)
-    {
-        $this->response = $response;
-    }
+    /** @var array */
+    protected $additionallyHandle = [];
 
     /**
      * @param Request $request
      * @param Exception $exception
-     * @return JsonResponse
+     * @return JsonResponseInterface
      */
-    public function render(Request $request, Exception $exception): JsonResponse
+    public function render(Request $request, Exception $exception): JsonResponseInterface
     {
+        $this->response = new JsonResponse();
+
         if ($exception instanceof InternalServerException) {
-
-            if ($exception->hasErrors()) {
-                $this->response->setErrors($exception->getErrors());
-            } else {
-                $this->response->addError($exception->getMessage());
-            }
-
-            return $this->response->setStatusCode($exception->getCode());
+            return $this->renderInternalServerException($exception);
         }
 
         if ($exception instanceof ValidationException) {
-            foreach ($exception->errors() as $errors) {
-                foreach ($errors as $error) {
-                    $this->response->addError($error);
-                }
-            }
-
-            return $this->response->setStatusCode(Response::HTTP_BAD_REQUEST);
+            return $this->renderValidationException($exception);
         }
 
+        foreach ($this->additionallyHandle as $exceptionClass => $response) {
+            if ($exception instanceof $exceptionClass) {
+                return $this->response
+                    ->setStatusCode($response['statusCode'])
+                    ->addError($response['error'] ?? $exception->getMessage());
+            }
+        }
+
+        return $this->renderFallbackException($exception);
+    }
+
+    /**
+     * @param string $exceptionClass
+     * @param int $statusCode
+     * @param string $error
+     */
+    public function additionallyHandle(string $exceptionClass, int $statusCode, string $error = null): void
+    {
+        $this->additionallyHandle[$exceptionClass] = [
+            'statusCode' => $statusCode,
+            'error' => $error,
+        ];
+    }
+
+    /**
+     * @param InternalServerException $exception
+     * @return JsonResponseInterface
+     */
+    protected function renderInternalServerException(InternalServerException $exception): JsonResponseInterface
+    {
+        if ($exception->hasErrors()) {
+            $this->response->setErrors($exception->getErrors());
+        } else {
+            $this->response->addError($exception->getMessage());
+        }
+
+        return $this->response->setStatusCode($exception->getCode());
+    }
+
+    /**
+     * @param ValidationException $exception
+     * @return JsonResponseInterface
+     */
+    protected function renderValidationException(ValidationException $exception): JsonResponseInterface
+    {
+        foreach ($exception->errors() as $errors) {
+            foreach ($errors as $error) {
+                $this->response->addError($error);
+            }
+        }
+
+        return $this->response->setStatusCode(Response::HTTP_BAD_REQUEST);
+    }
+
+    /**
+     * @param Throwable $exception
+     * @return JsonResponseInterface
+     */
+    protected function renderFallbackException(Throwable $exception): JsonResponseInterface
+    {
         $status = Response::HTTP_INTERNAL_SERVER_ERROR;
         $error = '';
 

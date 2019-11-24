@@ -4,10 +4,9 @@ declare(strict_types=1);
 
 namespace Grocelivery\HttpUtils\Providers;
 
-use Illuminate\Contracts\Foundation\Application;
+use Grocelivery\HttpUtils\Requests\FormRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\ServiceProvider;
-use Grocelivery\HttpUtils\Requests\FormRequest;
 
 /**
  * Class HttpUtilsServiceProvider
@@ -15,13 +14,10 @@ use Grocelivery\HttpUtils\Requests\FormRequest;
  */
 class HttpUtilsServiceProvider extends ServiceProvider
 {
-    /**
-     *
-     */
     public function boot(): void
     {
         $this->publishes([
-            __DIR__ . '../../../config/http-utils.php' => app()->basePath().'/config/http-utils.php',
+            __DIR__ . '../../../config/http-utils.php' => app()->basePath() . '/config/http-utils.php',
         ]);
 
         $this->app->resolving(FormRequest::class, function (FormRequest $request) {
@@ -39,10 +35,36 @@ class HttpUtilsServiceProvider extends ServiceProvider
      */
     protected function initializeRequest(FormRequest $form, Request $current): void
     {
-        $files = $current->files->all();
-        $files = is_array($files) ? array_filter($files) : $files;
-        $route = $current->route();
-        $form->initialize($current->query(), $current->request->all(), end($route), $current->cookies->all(), $files, $current->server(), $current->getContent());
+        $form->initialize(
+            $current->query(),
+            $current->request->all(),
+            $this->getRouteParameters($current),
+            $current->cookies->all(),
+            $this->getFiles($current),
+            $current->server(),
+            $current->getContent()
+        );
+
         $form->setJson($current->json());
+    }
+
+    /**
+     * @param Request $current
+     * @return array
+     */
+    protected function getFiles(Request $current): array
+    {
+        $files = $current->files->all();
+        return is_array($files) ? array_filter($files) : $files;
+    }
+
+    /**
+     * @param Request $current
+     * @return array
+     */
+    protected function getRouteParameters(Request $current): array
+    {
+        $route = $current->route();
+        return is_array($route) ? end($route) : $route->parameters();
     }
 }
