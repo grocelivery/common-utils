@@ -2,9 +2,13 @@
 
 namespace Grocelivery\Utils\Services;
 
+use Carbon\Carbon;
+use Grocelivery\Utils\Clients\RestClient;
 use Grocelivery\Utils\Exceptions\OAuthKeyLoaderException;
-use GuzzleHttp\Client;
+use Grocelivery\Utils\Exceptions\RestClientException;
 use Grocelivery\Utils\Responses\JsonResponse;
+use Illuminate\Contracts\Cache\Repository as Cache;
+use Psr\SimpleCache\InvalidArgumentException;
 use Throwable;
 
 /**
@@ -13,30 +17,37 @@ use Throwable;
  */
 class OAuthKeyLoader
 {
-    /** @var Client */
-    protected $httpClient;
-    /**
-     * @var array
-     */
-    protected $config = [];
+    /** @var RestClient */
+    protected $restClient;
+    /** @var Cache */
+    protected $cache;
 
     /**
      * OAuthKeyLoader constructor.
-     * @param Client $httpClient
+     * @param RestClient $restClient
+     * @param Cache $cache
      */
-    public function __construct(Client $httpClient)
+    public function __construct(RestClient $restClient, Cache $cache)
     {
-        $this->httpClient = $httpClient;
+        $this->restClient = $restClient;
+        $this->cache = $cache;
     }
 
     /**
      * @return string
      * @throws OAuthKeyLoaderException
+     * @throws InvalidArgumentException
      */
     public function load(): string
     {
         if ($this->shouldLoadFromApi()) {
-            return $this->loadFromApi();
+            if ($this->cache->has('oauth-key')) {
+                return $this->cache->get('oauth-key');
+            } else {
+                $key = $this->loadFromApi();
+                $this->cache->set('oauth-key', $key, $this->getKeyCacheTTL());
+                return $key;
+            }
         }
 
         if ($this->shouldLoadFromFile()) {
@@ -53,12 +64,12 @@ class OAuthKeyLoader
     protected function loadFromApi(): string
     {
         try {
-            $response = $this->httpClient->get(config('utils.oauth_key.api.url'));
-        } catch (Throwable $exception) {
+            /** @var JsonResponse $response */
+            $response = $this->restClient->get(config('grocelivery.oauth_key.api.url'));
+        } catch (RestClientException $exception) {
             throw new OAuthKeyLoaderException('Unable to load OAuth public key from API');
         }
 
-        $response = JsonResponse::fromJsonString($response->getBody()->getContents());
         return $response->get('key');
     }
 
@@ -69,7 +80,7 @@ class OAuthKeyLoader
     protected function loadFromFile(): string
     {
         try {
-            return file_get_contents(base_path() . config('utils.oauth_key.file.path'));
+            return file_get_contents(base_path() . config('grocelivery.oauth_key.file.path'));
         } catch (Throwable $exception) {
             throw new OAuthKeyLoaderException('Unable to load OAuth public key from file');
         }
@@ -80,7 +91,7 @@ class OAuthKeyLoader
      */
     protected function shouldLoadFromApi(): bool
     {
-        return !is_null(config('utils.oauth_key.api'));
+        return !is_null(config('grocelivery.oauth_key.api'));
     }
 
     /**
@@ -88,6 +99,14 @@ class OAuthKeyLoader
      */
     protected function shouldLoadFromFile(): bool
     {
-        return !is_null(config('utils.oauth_key.file'));
+        return !is_null(config('grocelivery.oauth_key.file'));
+    }
+
+    /**
+     * @return Carbon
+     */
+    protected function getKeyCacheTTL(): Carbon
+    {
+        return Carbon::now()->addDay();
     }
 }

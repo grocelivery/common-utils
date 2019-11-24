@@ -17,7 +17,7 @@ class UtilsServiceProvider extends ServiceProvider
     public function boot(): void
     {
         $this->publishes([
-            __DIR__ . '../../../config/utils.php' => app()->basePath() . '/config/utils.php',
+            __DIR__ . '../../../config/grocelivery.php' => app()->basePath() . '/config/grocelivery.php',
         ]);
 
         $this->app->resolving(FormRequest::class, function (FormRequest $request) {

@@ -11,6 +11,7 @@ use Lcobucci\JWT\Parser;
 use Lcobucci\JWT\ValidationData;
 use Throwable;
 use Lcobucci\JWT\Signer\Rsa\Sha256;
+use Psr\SimpleCache\InvalidArgumentException;
 
 /**
  * Class Authenticate
@@ -37,6 +38,7 @@ class Authenticate
      * @return mixed
      * @throws OAuthKeyLoaderException
      * @throws UnauthorizedException
+     * @throws InvalidArgumentException
      */
     public function handle(Request $request, Closure $next, $guard = null)
     {
@@ -44,7 +46,12 @@ class Authenticate
             throw new UnauthorizedException();
         }
 
-        $accessToken = explode("Bearer ", $request->header('Authorization'))[1];
+        if ($request->hasHeader('Authorization')) {
+            $accessToken = explode("Bearer ", $request->header('Authorization'))[1] ?? '';
+        } else {
+            $accessToken = '';
+        }
+
 
         try {
             $parsedToken = (new Parser())->parse($accessToken);
