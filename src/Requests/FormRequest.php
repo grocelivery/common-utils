@@ -1,6 +1,6 @@
 <?php
 
-namespace Grocelivery\HttpUtils\Requests;
+namespace Grocelivery\Utils\Requests;
 
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
@@ -8,7 +8,7 @@ use Illuminate\Validation\Validator;
 
 /**
  * Class FormRequest
- * @package Grocelivery\HttpUtils\Requests
+ * @package Grocelivery\Utils\Requests
  */
 abstract class FormRequest extends Request
 {

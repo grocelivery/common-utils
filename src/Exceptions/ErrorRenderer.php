@@ -1,10 +1,10 @@
 <?php
 
-namespace Grocelivery\HttpUtils\Exceptions;
+namespace Grocelivery\Utils\Exceptions;
 
 use Exception;
-use Grocelivery\HttpUtils\Interfaces\JsonResponseInterface;
-use Grocelivery\HttpUtils\Responses\JsonResponse;
+use Grocelivery\Utils\Interfaces\JsonResponseInterface;
+use Grocelivery\Utils\Responses\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Validation\ValidationException;
@@ -14,7 +14,7 @@ use Throwable;
 
 /**
  * Class ErrorRenderer
- * @package Grocelivery\HttpUtils\Exceptions
+ * @package Grocelivery\Utils\Exceptions
  */
 class ErrorRenderer
 {

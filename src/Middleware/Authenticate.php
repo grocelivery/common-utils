@@ -1,11 +1,11 @@
 <?php
 
-namespace Grocelivery\HttpUtils\Middleware;
+namespace Grocelivery\Utils\Middleware;
 
 use Closure;
-use Grocelivery\HttpUtils\Exceptions\OAuthKeyLoaderException;
-use Grocelivery\HttpUtils\Exceptions\UnauthorizedException;
-use Grocelivery\HttpUtils\Services\OAuthKeyLoader;
+use Grocelivery\Utils\Exceptions\OAuthKeyLoaderException;
+use Grocelivery\Utils\Exceptions\UnauthorizedException;
+use Grocelivery\Utils\Services\OAuthKeyLoader;
 use Illuminate\Http\Request;
 use Lcobucci\JWT\Parser;
 use Lcobucci\JWT\ValidationData;
@@ -14,7 +14,7 @@ use Lcobucci\JWT\Signer\Rsa\Sha256;
 
 /**
  * Class Authenticate
- * @package Grocelivery\HttpUtils\Middleware
+ * @package Grocelivery\Utils\Middleware
  */
 class Authenticate
 {

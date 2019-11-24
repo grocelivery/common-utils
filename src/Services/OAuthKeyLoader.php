@@ -1,15 +1,15 @@
 <?php
 
-namespace Grocelivery\HttpUtils\Services;
+namespace Grocelivery\Utils\Services;
 
-use Grocelivery\HttpUtils\Exceptions\OAuthKeyLoaderException;
+use Grocelivery\Utils\Exceptions\OAuthKeyLoaderException;
 use GuzzleHttp\Client;
-use Grocelivery\HttpUtils\Responses\JsonResponse;
+use Grocelivery\Utils\Responses\JsonResponse;
 use Throwable;
 
 /**
  * Class OAuthKeyRetriever
- * @package Grocelivery\HttpUtils\Services
+ * @package Grocelivery\Utils\Services
  */
 class OAuthKeyLoader
 {
@@ -53,7 +53,7 @@ class OAuthKeyLoader
     protected function loadFromApi(): string
     {
         try {
-            $response = $this->httpClient->get(config('http-utils.oauth_key.api.url'));
+            $response = $this->httpClient->get(config('utils.oauth_key.api.url'));
         } catch (Throwable $exception) {
             throw new OAuthKeyLoaderException('Unable to load OAuth public key from API');
         }
@@ -69,7 +69,7 @@ class OAuthKeyLoader
     protected function loadFromFile(): string
     {
         try {
-            return file_get_contents(base_path() . config('http-utils.oauth_key.file.path'));
+            return file_get_contents(base_path() . config('utils.oauth_key.file.path'));
         } catch (Throwable $exception) {
             throw new OAuthKeyLoaderException('Unable to load OAuth public key from file');
         }
@@ -80,7 +80,7 @@ class OAuthKeyLoader
      */
     protected function shouldLoadFromApi(): bool
     {
-        return !is_null(config('http-utils.oauth_key.api'));
+        return !is_null(config('utils.oauth_key.api'));
     }
 
     /**
@@ -88,6 +88,6 @@ class OAuthKeyLoader
      */
     protected function shouldLoadFromFile(): bool
     {
-        return !is_null(config('http-utils.oauth_key.file'));
+        return !is_null(config('utils.oauth_key.file'));
     }
 }

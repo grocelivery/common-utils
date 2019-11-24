@@ -2,22 +2,22 @@
 
 declare(strict_types=1);
 
-namespace Grocelivery\HttpUtils\Providers;
+namespace Grocelivery\Utils\Providers;
 
-use Grocelivery\HttpUtils\Requests\FormRequest;
+use Grocelivery\Utils\Requests\FormRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\ServiceProvider;
 
 /**
- * Class HttpUtilsServiceProvider
- * @package Grocelivery\HttpUtils\Providers
+ * Class UtilsServiceProvider
+ * @package Grocelivery\Utils\Providers
  */
-class HttpUtilsServiceProvider extends ServiceProvider
+class UtilsServiceProvider extends ServiceProvider
 {
     public function boot(): void
     {
         $this->publishes([
-            __DIR__ . '../../../config/http-utils.php' => app()->basePath() . '/config/http-utils.php',
+            __DIR__ . '../../../config/utils.php' => app()->basePath() . '/config/utils.php',
         ]);
 
         $this->app->resolving(FormRequest::class, function (FormRequest $request) {

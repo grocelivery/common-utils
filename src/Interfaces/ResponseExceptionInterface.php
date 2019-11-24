@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Grocelivery\HttpUtils\Interfaces;
+namespace Grocelivery\Utils\Interfaces;
 
 /**
  * Interface ResponseExceptionInterface
- * @package Grocelivery\HttpUtils\Interfaces
+ * @package Grocelivery\Utils\Interfaces
  */
 interface ResponseExceptionInterface
 {

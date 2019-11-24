@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Grocelivery\HttpUtils\Interfaces;
+namespace Grocelivery\Utils\Interfaces;
 
 use Illuminate\Http\JsonResponse;
 
 /**
  * Interface JsonResponseInterface
- * @package Grocelivery\HttpUtils\Interfaces
+ * @package Grocelivery\Utils\Interfaces
  */
 interface JsonResponseInterface
 {
@@ -42,6 +42,12 @@ interface JsonResponseInterface
      * @return JsonResponseInterface
      */
     public function withResource(string $key, JsonResourceInterface $resource): JsonResponseInterface;
+
+    /**
+     * @param array $body
+     * @return JsonResponseInterface
+     */
+    public function setBody(array $body): JsonResponseInterface;
 
     /**
      * @param array $errors
