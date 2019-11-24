@@ -8,7 +8,7 @@ use Grocelivery\Utils\Responses\JsonResponse;
 use Throwable;
 
 /**
- * Class OAuthKeyRetriever
+ * Class OAuthKeyLoader
  * @package Grocelivery\Utils\Services
  */
 class OAuthKeyLoader
