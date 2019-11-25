@@ -10,7 +10,7 @@ use Illuminate\Validation\Validator;
  * Class FormRequest
  * @package Grocelivery\Utils\Requests
  */
-abstract class FormRequest extends Request
+class FormRequest extends Request
 {
     /**
      * @throws ValidationException
@@ -28,7 +28,10 @@ abstract class FormRequest extends Request
     /**
      * @return array
      */
-    abstract protected function rules(): array;
+    protected function rules(): array
+    {
+        return [];
+    }
 
     /**
      * @return array
