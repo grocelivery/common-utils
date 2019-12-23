@@ -52,7 +52,6 @@ class Authenticate
             $accessToken = '';
         }
 
-
         try {
             $parsedToken = (new Parser())->parse($accessToken);
         } catch (Throwable $exception) {
@@ -62,13 +61,17 @@ class Authenticate
         $parsedToken->validate(new ValidationData());
 
         try {
-            $parsedToken->verify(new Sha256(), $this->keyLoader->load());
-        }  catch (OAuthKeyLoaderException $exception) {
+            $isVerfied = $parsedToken->verify(new Sha256(), $this->keyLoader->load());
+        } catch (OAuthKeyLoaderException $exception) {
             throw $exception;
         } catch (Throwable $exception) {
             throw new UnauthorizedException();
         }
 
-       return $next($request);
+        if (!$isVerfied) {
+            throw new UnauthorizedException();
+        }
+
+        return $next($request);
     }
 }
