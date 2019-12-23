@@ -14,4 +14,7 @@ return [
     'notifier' => [
         'host' => env('NOTIFIER_HOST', 'http://notifier-webserver'),
     ],
+    'geolocalizer' => [
+        'host' => env('GEOLOCALIZER_HOST', 'http://geolocalizer-webserver'),
+    ],
 ];

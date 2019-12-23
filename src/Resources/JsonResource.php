@@ -27,6 +27,16 @@ abstract class JsonResource implements JsonResourceInterface
     }
 
     /**
+     * @param array $resource
+     * @return static
+     */
+    public static function fromArray(array $resource): self
+    {
+        $class = get_called_class();
+        return new $class(new ResourceArray($resource));
+    }
+
+    /**
      * @return array
      */
     public function map(): array

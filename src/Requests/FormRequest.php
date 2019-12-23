@@ -2,6 +2,8 @@
 
 namespace Grocelivery\Utils\Requests;
 
+use Grocelivery\Utils\Models\User;
+use Grocelivery\Utils\Services\JwtDecoder;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Validation\Validator;
@@ -23,6 +25,16 @@ class FormRequest extends Request
         if ($validator->fails()) {
             throw new ValidationException($validator);
         }
+    }
+
+    /**
+     * @param null $guard
+     * @return User
+     */
+    public function user($guard = null): User
+    {
+        $decoder = new JwtDecoder();
+        return $decoder->fetchUser($this->header('Authorization'));
     }
 
     /**
