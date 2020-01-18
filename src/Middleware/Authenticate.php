@@ -58,20 +58,19 @@ class Authenticate
             throw new UnauthorizedException();
         }
 
-        $parsedToken->validate(new ValidationData());
+        if ($parsedToken->isExpired()) {
+            throw new UnauthorizedException();
+        }
 
         try {
-            $isVerfied = $parsedToken->verify(new Sha256(), $this->keyLoader->load());
-        } catch (OAuthKeyLoaderException $exception) {
+            $parsedToken->validate(new ValidationData());
+            $parsedToken->verify(new Sha256(), $this->keyLoader->load());
+        }  catch (OAuthKeyLoaderException $exception) {
             throw $exception;
         } catch (Throwable $exception) {
             throw new UnauthorizedException();
         }
 
-        if (!$isVerfied) {
-            throw new UnauthorizedException();
-        }
-
-        return $next($request);
+       return $next($request);
     }
 }
