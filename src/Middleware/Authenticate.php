@@ -46,11 +46,7 @@ class Authenticate
             throw new UnauthorizedException();
         }
 
-        if ($request->hasHeader('Authorization')) {
-            $accessToken = explode("Bearer ", $request->header('Authorization'))[1] ?? '';
-        } else {
-            $accessToken = '';
-        }
+        $accessToken = explode("Bearer ", $request->header('Authorization'))[1] ?? '';
 
         try {
             $parsedToken = (new Parser())->parse($accessToken);
@@ -58,16 +54,13 @@ class Authenticate
             throw new UnauthorizedException();
         }
 
-        if ($parsedToken->isExpired()) {
+        if (!$parsedToken->validate(new ValidationData())) {
             throw new UnauthorizedException();
         }
 
-        try {
-            $parsedToken->validate(new ValidationData());
-            $parsedToken->verify(new Sha256(), $this->keyLoader->load());
-        }  catch (OAuthKeyLoaderException $exception) {
-            throw $exception;
-        } catch (Throwable $exception) {
+        $publicKey = $this->keyLoader->load();
+
+        if (!$parsedToken->verify(new Sha256(), $publicKey)) {
             throw new UnauthorizedException();
         }
 
