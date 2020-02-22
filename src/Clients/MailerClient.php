@@ -7,32 +7,33 @@ use Grocelivery\Utils\Interfaces\PropagatesAccessToken;
 use Grocelivery\Utils\Responses\JsonResponse;
 
 /**
- * Class NotifierClient
+ * Class MailerClient
  * @package Grocelivery\Utils\Clients
  */
-class NotifierClient extends RestClient implements PropagatesAccessToken
+class MailerClient extends RestClient implements PropagatesAccessToken
 {
     /**
      * @return string
      */
     public function getHost(): string
     {
-        return config('grocelivery.notifier.host');
+        return config('grocelivery.mailer.host');
     }
 
     /**
-     * @param string $mailable
+     * @param string $template
      * @param string $to
      * @param array $data
      * @return JsonResponseInterface
      */
-    public function sendMail(string $mailable, string $to, array $data): JsonResponseInterface
+    public function sendMail(string $template, string $to, array $data): JsonResponseInterface
     {
         $this->setData([
             'to' => $to,
+            'template' => $template,
             'data' => $data,
         ]);
 
-        return $this->post("/mail/$mailable");
+        return $this->post("/mail");
     }
 }
