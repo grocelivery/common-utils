@@ -34,6 +34,6 @@ class MailerClient extends RestClient implements PropagatesAccessToken
             'data' => $data,
         ]);
 
-        return $this->post("/mail");
+        return $this->post("/send");
     }
 }
