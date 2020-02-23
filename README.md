@@ -6,7 +6,7 @@ Wewnętrzna biblioteka zawierająca komponenty wspólne dla wszystkich aplikacji
 - Middleware weryfikujący token dostępu
 - Model użytkownika odkodowywany z tokenu JWT
 - Mechanizm walidacji żądań (FormRequests)
-- Mechanizm mapowania obiektów danych na dokumenty JSON (JsonResources)
+- Mechanizm mapowania danych na dokumenty JSON (JsonResources)
 - ...
 
 ### Instalacja
